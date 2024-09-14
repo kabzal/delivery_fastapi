@@ -10,6 +10,13 @@ app = FastAPI(
 )
 
 
+# Корневой энпоинт
+@app.get("/")
+async def read_root():
+    return {"message": "Добро пожаловать в сервис управления заказаами! "
+                       "Для тестирования функционала рекомендуем перейти по ссылке http://127.0.0.1:8000/docs"}
+
+
 # Получение данных о заявке по internal_id
 @app.get("/request/{internal_id}/", response_model=DeliveryRequestOut)
 async def get_delivery_request_endpoint(
