@@ -19,7 +19,7 @@
 git clone https://github.com/kabzal/delivery_fastapi.git
 cd delivery_fastapi
 ```
-2. Установите зависимости проекта:
+2. Создайте и активируйте виртуально окружение, после чего установите зависимости проекта:
 ```bash
 pip install -r requirements.txt
 ```
