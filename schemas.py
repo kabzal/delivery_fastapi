@@ -64,3 +64,7 @@ class DeliveryStatusCreate(BaseModel):
 
 class DeliveryStatusOut(DeliveryStatusCreate):
     load_date: datetime
+
+
+class DeliveryStatusUpdate(BaseModel):
+    new_status: DeliveryStatus

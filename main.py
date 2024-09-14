@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from crud import create_request, create_status, update_status, get_status, get_delivery_request, update_request
 from database import get_db
-from schemas import DeliveryRequestIn, DeliveryStatus, DeliveryStatusOut, DeliveryRequestOut
+from schemas import DeliveryRequestIn, DeliveryStatus, DeliveryStatusOut, DeliveryRequestOut, DeliveryStatusUpdate
 
 app = FastAPI(
     title="Управление заказами"
@@ -88,13 +88,13 @@ async def get_delivery_status(
 @app.put("/request/{internal_id}/status")
 async def update_delivery_status(
         internal_id: int,
-        new_status: DeliveryStatus,
+        status_update: DeliveryStatusUpdate,
         db: AsyncSession = Depends(get_db)
 ):
     """
         Укажите internal_id заявки, текущий статус которой хотите изменить, и укажите новый статус.
     """
 
-    message = await update_status(db=db, status_name=new_status, internal_id=internal_id)
+    message = await update_status(db=db, status_name=status_update.new_status, internal_id=internal_id)
 
     return message
