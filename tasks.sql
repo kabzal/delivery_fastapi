@@ -7,7 +7,7 @@
 SELECT
 	dr.DeliveryCity AS city,
 	COUNT(*) AS completed_orders,
-    AVG(EXTRACT(EPOCH FROM (dsc.LoadDate - dr.LoadDate)) / 3600) AS avg_completion_time_hours
+	AVG(EXTRACT(EPOCH FROM (dsc.LoadDate - dr.LoadDate)) / 3600) AS avg_completion_time_hours
 FROM DeliveryRequests dr
 JOIN DeliveryStatusCurrent dsc ON dr.InternalId = dsc.InternalId
 WHERE dsc.StatusName = 'Done'
@@ -35,9 +35,9 @@ ORDER BY 2 DESC;
 WITH status_times AS (
 SELECT
 	dh.InternalId,
-    dh.StatusName as status,
+	dh.StatusName as status,
 	dh.LoadDate,
-    LEAD(dh.LoadDate) OVER (PARTITION BY dh.InternalId ORDER BY dh.LoadDate) - dh.LoadDate AS duration_days
+	LEAD(dh.LoadDate) OVER (PARTITION BY dh.InternalId ORDER BY dh.LoadDate) - dh.LoadDate AS duration_days
 FROM DeliveryStatusHistory dh
 )
 
