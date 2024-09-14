@@ -6,6 +6,7 @@ from sqlalchemy.orm import mapped_column, Mapped
 from database import Base
 
 
+# Модель заявок
 class DeliveryRequests(Base):
     __tablename__ = "delivery_requests"
 
@@ -25,6 +26,7 @@ class DeliveryRequests(Base):
     package_type: Mapped[str] = mapped_column(String)
 
 
+# Модель текущих статусов
 class DeliveryStatusCurrent(Base):
     __tablename__ = "delivery_status_current"
 
@@ -38,6 +40,7 @@ class DeliveryStatusCurrent(Base):
     load_date: Mapped[datetime] = mapped_column(DateTime)
 
 
+# Модель истории статусов
 class DeliveryStatusHistory(Base):
     __tablename__ = "delivery_status_history"
 
@@ -54,6 +57,7 @@ class DeliveryStatusHistory(Base):
     load_date: Mapped[datetime] = mapped_column(DateTime)
 
 
+# Модель складов
 class Warehouse(Base):
     __tablename__ = "warehouses"
 
@@ -64,8 +68,8 @@ class Warehouse(Base):
     )
     wh_city: Mapped[str] = mapped_column(String)
     wh_address: Mapped[str] = mapped_column(String)
-    wh_lat: Mapped[float] = mapped_column(Float)
-    wh_lon: Mapped[float] = mapped_column(Float)
+    wh_lat: Mapped[float] = mapped_column(Float)  # долгота
+    wh_lon: Mapped[float] = mapped_column(Float)  # широта
 
     __table_args__ = (UniqueConstraint("wh_city", "wh_address", name="uq_city_address"),)
 

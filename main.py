@@ -10,14 +10,14 @@ app = FastAPI(
 )
 
 
-# Получение данных о заказе по internal_id
+# Получение данных о заявке по internal_id
 @app.get("/request/{internal_id}/", response_model=DeliveryRequestOut)
 async def get_delivery_request_endpoint(
         internal_id: int,
         db: AsyncSession = Depends(get_db)
 ):
     """
-    Введите internal_id заказа, сведения о котором хотите посмотреть.
+    Введите internal_id заявки, сведения о которой хотите посмотреть.
     """
     delivery_request = await get_delivery_request(db=db, internal_id=internal_id)
     return delivery_request
@@ -30,7 +30,7 @@ async def create_delivery_request_endpoint(
         db: AsyncSession = Depends(get_db)
 ):
     """
-        Отправьте Body с параметрами заказа, который хотите создать.
+        Отправьте Body с параметрами заявки, который хотите создать.
 
         Ограничения:
             delivery_city: Доступны только Казань, Набережные Челны, Нижнекамск, Альметьевск, Зеленодольск.
@@ -39,7 +39,7 @@ async def create_delivery_request_endpoint(
 
         Комментарий (comment) указывать необязательно. Если хотите оставить его пустым, удалите его из Body.
 
-        Функция возвращает internal_id вновь созданного заказа.
+        Функция возвращает internal_id вновь созданной заявки.
     """
 
     new_request = await create_request(db=db, request=request)  # сохраняем заказ в БД
@@ -54,7 +54,7 @@ async def create_delivery_request_endpoint(
     return {"new_request_internal_id": new_request.internal_id}  # Возвращаем internal_id
 
 
-# Обновление заказа
+# Обновление заявки
 @app.put("/request/{internal_id}/")
 async def update_delivery_request_endpoint(
         internal_id: int,
@@ -62,7 +62,7 @@ async def update_delivery_request_endpoint(
         db: AsyncSession = Depends(get_db)
 ):
     """
-        Укажите internal_id и отправьте Body с параметрами заказа, который хотите обновить.
+        Укажите internal_id заявки и отправьте Body с параметрами заявки, которую хотите обновить.
     """
 
     message = await update_request(db=db, internal_id=internal_id, request_update=request_update)
@@ -76,7 +76,7 @@ async def get_delivery_status(
         db: AsyncSession = Depends(get_db)
 ):
     """
-        Укажите internal_id заказа, текущий статус которого хотите получить.
+        Укажите internal_id заявки, текущий статус которой хотите получить.
     """
 
     current_status = await get_status(db=db, internal_id=internal_id)
@@ -92,7 +92,7 @@ async def update_delivery_status(
         db: AsyncSession = Depends(get_db)
 ):
     """
-        Укажите internal_id заказа, текущий статус которого хотите изменить, и укажите новый статус.
+        Укажите internal_id заявки, текущий статус которой хотите изменить, и укажите новый статус.
     """
 
     message = await update_status(db=db, status_name=new_status, internal_id=internal_id)

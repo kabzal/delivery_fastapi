@@ -19,7 +19,7 @@ async def get_delivery_request(db: AsyncSession, internal_id: int):
     if delivery_request:
         return delivery_request
     else:
-        raise HTTPException(status_code=404, detail=f'Заказ №{internal_id} не найден.')
+        raise HTTPException(status_code=404, detail=f'Заявка №{internal_id} не найдена.')
 
 
 # Создание заявки
@@ -81,7 +81,7 @@ async def update_request(db: AsyncSession, internal_id: int, request_update: sch
     db.add(existing_request)
     await db.commit()
 
-    return {"message": f"Заказ №{internal_id} успешно обновлен"}
+    return {"message": f"Заявка №{internal_id} успешно обновлена"}
 
 
 # Получение статуса по заявке
@@ -93,7 +93,7 @@ async def get_status(db: AsyncSession, internal_id: int):
     if status:
         return status
     else:
-        raise HTTPException(status_code=404, detail='Статус такого заказа не найден.')
+        raise HTTPException(status_code=404, detail='Статус такой заявки не найден.')
 
 
 # Создание и изменение статуса заявки
@@ -119,7 +119,7 @@ async def create_status(db: AsyncSession, status_name: schemas.DeliveryStatus, i
 
     await db.commit()
 
-    return {"message": f"Установлен статус заказа №{internal_id}: {status_name.value}"}
+    return {"message": f"Установлен статус Заявки №{internal_id}: {status_name.value}"}
 
 
 # Функция для обновления статуса
@@ -142,7 +142,7 @@ async def update_status(db: AsyncSession, status_name: schemas.DeliveryStatus, i
 
     await db.commit()
 
-    return {"message": f"Новый статус заказа №{internal_id}: {status_name.value}"}
+    return {"message": f"Новый статус Заявки №{internal_id}: {status_name.value}"}
 
 
 # Функция для получения склада из БД и рассчета расстояния до адреса доставки
