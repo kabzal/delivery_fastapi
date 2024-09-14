@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: postgres_osb
+    restart: always
+    env_file:
+      - .env.db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_osb:/var/lib/postgresql/data
+    networks:
+      - delivery_net
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U delivery_user -d delivery_db -h db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  delivery_fastapi:
+    build: .
+    container_name: delivery_fastapi
+    restart: always
+    env_file:
+      - .env.docker
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - delivery_net
+
+networks:
+  delivery_net:
+
+volumes:
+  postgres_data_osb:
